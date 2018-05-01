@@ -5,7 +5,7 @@ A simple web application for enrolling and withdrawing students into/from classe
 ### Dependencies
 
 * Java
-* Mysql
+* Mysql, jdbc
 * Spring boot
 * Maven
 
