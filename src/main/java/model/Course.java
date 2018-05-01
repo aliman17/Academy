@@ -3,6 +3,7 @@ package model;
 import java.util.UUID;
 
 public class Course {
+	
 	private UUID courseId;
 	private String courseName;
 	
@@ -11,11 +12,11 @@ public class Course {
 		this.courseName = courseName;
 	}
 
-	public UUID getId() {
+	public UUID getCourseId() {
 		return courseId;
 	}
 	
-	public String getName() {
+	public String getCourseName() {
 		return courseName;
 	}
 	

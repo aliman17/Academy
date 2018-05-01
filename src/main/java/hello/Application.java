@@ -1,7 +1,10 @@
 package hello;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
+
+// Run the project by:
+// mvn package && java -jar target/gs-spring-boot-0.1.0.jar
+
 import java.util.UUID;
 
 import org.springframework.boot.SpringApplication;
@@ -9,8 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
 import model.Academy;
-import model.Course;
-import model.Student;
 
 @SpringBootApplication
 public class Application {
@@ -19,39 +20,45 @@ public class Application {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
         
         String[] courses = {"Mathematics", "English", "Sociology", "Chemistry", "Geography", "History"};
-        String[] students = {"Janez Novak", "Ales Omerzel", "Borut Pahor"};
+        String[] students = {"Janez Novak", "Ana Novak", "Bor Novak"};
         
         Academy academy = Academy.getInstance();
         
         // Create courses.
-        ArrayList<Course> courses_ = new ArrayList<>();
         for (String course : courses) {
-            Course c = academy.addCourse(course);
-            courses_.add(c);
+            academy.addCourse(course);
         }
         
         // Create students.
-        ArrayList<Student> students_ = new ArrayList<>();
         for (String student : students) {
-        		String[] tmp = student.split(" ");
-        		String firstName = tmp[0];
-        		String lastName = tmp[1];
-        		Student s = academy.addStudent(firstName, lastName);
-        		students_.add(s);
+        		String[] name = student.split(" ");
+        		academy.addStudent(name[0], name[1]);
         }
         
-        // Enroll students to some courses.
-        UUID student1 = students_.get(0).getStudentId();
-        
-        Controller c = new Controller();
-        c.enroll(student1, courses_.get(0).getId());
-        c.enroll(student1, courses_.get(1).getId());
-        c.enroll(student1, courses_.get(2).getId());
-
-        UUID student2 = students_.get(1).getStudentId();
-
-        c.enroll(student2, courses_.get(0).getId());
-        c.enroll(student2, courses_.get(1).getId());    
+        // Enroll Ana to Math.
+        academy.enroll(
+        		UUID.fromString("403c3a65-903e-3603-8477-457a0326bf15"), 
+        		UUID.fromString("540b21ec-db27-3f50-87ee-585cedd6d5d0"));
+        // Enroll Janez to Math.
+        academy.enroll(
+        		UUID.fromString("88bfd3e8-1d13-3fb5-9928-e0b916ee2c9b"), 
+        		UUID.fromString("540b21ec-db27-3f50-87ee-585cedd6d5d0"));
+        // Enroll Bor to Math
+        academy.enroll(
+        		UUID.fromString("c5bdbd61-7274-3445-a043-f90c092afe88"), 
+        		UUID.fromString("540b21ec-db27-3f50-87ee-585cedd6d5d0"));
+        // Enroll Ana to Chemistry.
+        academy.enroll(
+        		UUID.fromString("403c3a65-903e-3603-8477-457a0326bf15"), 
+        		UUID.fromString("84cf6008-945c-3b55-8ed7-c0869557b70d"));
+        // Enroll Ana to Sociology.
+        academy.enroll(
+        		UUID.fromString("403c3a65-903e-3603-8477-457a0326bf15"), 
+        		UUID.fromString("2363ebcd-d984-3556-b3d0-8534c5c250c8"));
+        // Enroll Bor to Sociology
+        academy.enroll(
+        		UUID.fromString("c5bdbd61-7274-3445-a043-f90c092afe88"), 
+        		UUID.fromString("2363ebcd-d984-3556-b3d0-8534c5c250c8"));
         
     }
 

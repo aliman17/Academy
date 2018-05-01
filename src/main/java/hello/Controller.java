@@ -2,19 +2,15 @@ package hello;
 
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.jsontype.impl.ClassNameIdResolver;
-import com.sun.xml.internal.bind.v2.runtime.unmarshaller.XsiNilLoader.Array;
-
 import model.Academy;
 import model.Course;
+import model.Enrollment;
 import model.Student;
+import view.View;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map.Entry;
 import java.util.UUID;
 
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -24,35 +20,21 @@ public class Controller {
     
     @RequestMapping("/")
     public String index() {
-        return "<b>Greetings from Spring Boot!</b>";
+        return "<b>Welcome to Academy :)</b>";
     }
     
     @RequestMapping("/classes")
     public String classes() {
     		Academy academy = Academy.getInstance();
 		ArrayList<Course> courses = academy.getCourses();
-		
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("<b>Available classes:</b>");
-		for (Course course : courses) {
-			buffer.append("</br>");
-			buffer.append(course.toString());
-		}
-    		return buffer.toString();
+		return View.getCoursesView(courses);
     }
     
     @RequestMapping("/students")
     public String students() {
     		Academy academy = Academy.getInstance();
 		ArrayList<Student> students = academy.getStudents();
-		
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("<b>Students:</b>");
-		for (Student student : students) {
-			buffer.append("</br>");
-			buffer.append(student.toString());
-		}
-    		return buffer.toString();
+		return View.getStudentsView(students);
     }
     
     @RequestMapping(value = "student")
@@ -65,16 +47,13 @@ public class Controller {
     public String searchClasses(@RequestParam("pattern") String pattern) {
     		Academy academy = Academy.getInstance();
 		ArrayList<Course> courses = academy.getCourses();
-		
-		StringBuffer buffer = new StringBuffer();
-		buffer.append("<b>Found classes:</b>");
+		ArrayList<Course> selected = new ArrayList<>();
     		for (Course course : courses) {
-    			if (course.getName().toLowerCase().contains(pattern.toLowerCase())) {
-    				buffer.append("</br>");
-    				buffer.append(course.toString());
+    			if (course.getCourseName().toLowerCase().contains(pattern.toLowerCase())) {
+    				selected.add(course);
     			}
     		}
-    		return buffer.toString();
+    		return View.getSelectedCoursesView(selected);
     }
     
     @RequestMapping(value = "enroll")
@@ -91,38 +70,10 @@ public class Controller {
 		return enrolled();
     }
     
-    
     @RequestMapping("/enrolled")
     public String enrolled() {
     		Academy academy = Academy.getInstance();
-    		HashMap<UUID, ArrayList<UUID>> enrollments = academy.getEnrollments();
-    		    		
-    		StringBuffer buffer = new StringBuffer();
-    		buffer.append("<b>Enrollments:</b>");
-    		buffer.append("</br>");
-    		for (Entry<UUID, ArrayList<UUID>> entry : enrollments.entrySet()) {
-    			UUID courseId = entry.getKey();
-    			Course course = academy.getCourseById(courseId);
-    			ArrayList<UUID> enrolledStudents = entry.getValue();
-    			
-    			buffer.append("<b>");
-    			buffer.append(course.getName());
-    			buffer.append("</b>");
-    			buffer.append(" ");
-    			buffer.append(course.getId());
-    			buffer.append("  has enrolled students:");
-    			
-    			for (UUID studentId : enrolledStudents) {
-    				buffer.append("<br/>");
-    				Student student = academy.getStudentById(studentId);
-    				buffer.append(student.getFirstName());
-    				buffer.append(" ");
-    				buffer.append(student.getLastName());
-    				buffer.append(" - ");
-    				buffer.append(student.getStudentId());
-    			}
-    			buffer.append("<br/><br/>");
-    		}
-		return buffer.toString();
+    		ArrayList<Enrollment> enrollments = academy.getEnrollments();
+    		return View.getEnrollmentsView(enrollments);
     }
 }

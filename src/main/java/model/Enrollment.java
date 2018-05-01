@@ -1,39 +1,21 @@
 package model;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.UUID;
-
 public class Enrollment {
 	
-	private HashMap<UUID, ArrayList<UUID>> enrollment = new HashMap<>();
+	private Student student;
+	private Course course;
 	
-	public void registerCourse(Course course) {
-		enrollment.put(course.getId(), new ArrayList<UUID>());
+	public Enrollment(Student student, Course course) {
+		this.student = student;
+		this.course = course;
 	}
-	
-	public void enroll(UUID studentId, UUID courseId) {
-		if (enrollment.containsKey(courseId)) {
-			enrollment.get(courseId).add(studentId);
-		} else {
-			ArrayList<UUID> enrolledStudents = new ArrayList<>();
-			enrolledStudents.add(studentId);
-			enrollment.put(courseId, enrolledStudents);
-		}
+
+	public Student getStudent() {
+		return student;
 	}
-	
-	public void withdraw(UUID studentId, UUID courseId) {
-		if (enrollment.containsKey(courseId)) {
-			enrollment.get(courseId).remove(studentId);
-		} else {
-			// TODO: throw exception for no existing class
-		}
+
+	public Course getCourse() {
+		return course;
 	}
-	
-	public HashMap<UUID, ArrayList<UUID>> getEnrollments() {
-		return (HashMap<UUID, ArrayList<UUID>>) enrollment.clone();
-	}
-	
-	
 	
 }
