@@ -1,4 +1,4 @@
-package hello;
+package app;
 
 import org.springframework.web.bind.annotation.RestController;
 
@@ -38,9 +38,9 @@ public class Controller {
     }
     
     @RequestMapping(value = "student")
-    public String getStudent(@RequestParam("id") UUID studentId) {
+    public String getStudent(@RequestParam("id") String studentId) {
     		Academy academy = Academy.getInstance();
-    		return academy.getStudentById(studentId).toString();
+    		return academy.getStudentById(UUID.fromString(studentId)).toString();
     }
     
     @RequestMapping(value = "search", method = RequestMethod.GET)

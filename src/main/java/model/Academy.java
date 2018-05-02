@@ -29,7 +29,6 @@ public class Academy {
 			DatabaseHandler.update(conn, String.format("INSERT IGNORE INTO Students VALUES ('%s', '%s', '%s');", studentId.toString(), firstName, lastName));
 			DatabaseHandler.closeConnection(conn);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -39,10 +38,9 @@ public class Academy {
 		ArrayList<HashMap<String, String>> students = null;
 		try {
 			conn = DatabaseHandler.getConnection();
-			students = DatabaseHandler.query(conn, String.format("SELECT TOP 1 * FROM Students WHERE %s='%s'", Constants.STUDENT_ID_COL, studentId.toString()));
+			students = DatabaseHandler.query(conn, String.format("SELECT * FROM Students WHERE %s='%s'", Constants.STUDENT_ID_COL, studentId.toString()));
 			DatabaseHandler.closeConnection(conn);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		HashMap<String, String> studentResult = students.get(0);
@@ -62,7 +60,6 @@ public class Academy {
 			DatabaseHandler.update(conn, sql);
 			DatabaseHandler.closeConnection(conn);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -72,11 +69,10 @@ public class Academy {
 		ArrayList<HashMap<String, String>> courses = null;
 		try {
 			conn = DatabaseHandler.getConnection();
-			String sql = String.format("SELECT TOP 1 * FROM Courses WHERE %s='%s'", Constants.COURSE_ID_COL, courseId.toString());
+			String sql = String.format("SELECT * FROM Courses WHERE %s='%s'", Constants.COURSE_ID_COL, courseId.toString());
 			courses = DatabaseHandler.query(conn, sql);
 			DatabaseHandler.closeConnection(conn);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		HashMap<String, String> courseResult = courses.get(0);
@@ -93,7 +89,6 @@ public class Academy {
 			DatabaseHandler.update(conn, sql);
 			DatabaseHandler.closeConnection(conn);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -106,7 +101,6 @@ public class Academy {
 			DatabaseHandler.update(conn, sql);
 			DatabaseHandler.closeConnection(conn);
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}	}
 	
@@ -119,16 +113,12 @@ public class Academy {
 			courses = DatabaseHandler.query(conn, query);
 			DatabaseHandler.closeConnection(conn);
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -151,20 +141,17 @@ public class Academy {
 			students = DatabaseHandler.query(conn, query);
 			DatabaseHandler.closeConnection(conn);
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
 		ArrayList<Student> students_ = new ArrayList<>();
+		
 		for (HashMap<String, String> result : students) {
 			String studentId = result.get(Constants.STUDENT_ID_COL);
 			String firstName = result.get(Constants.STUDENT_FIRST_NAME_COL);
@@ -184,20 +171,17 @@ public class Academy {
 			enrollments = DatabaseHandler.query(conn, query);
 			DatabaseHandler.closeConnection(conn);
 		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 				
 		ArrayList<Enrollment> enrollments_ = new ArrayList<>();
+		
 		for (HashMap<String, String> result : enrollments) {
 			
 			String studentId = result.get(Constants.STUDENT_ID_COL);
@@ -212,7 +196,7 @@ public class Academy {
 			Course course = new Course(UUID.fromString(courseId), courseName);
 			
 			Enrollment enrollment = new Enrollment(student, course);
-
+			
 			enrollments_.add(enrollment);
 		}
 		return enrollments_;

@@ -1,6 +1,8 @@
-package hello;
+package app;
 
 
+
+import java.sql.SQLException;
 
 // Run the project by:
 // mvn package && java -jar target/gs-spring-boot-0.1.0.jar
@@ -11,6 +13,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 
+import database.DatabaseHandler;
 import model.Academy;
 
 @SpringBootApplication
@@ -18,6 +21,22 @@ public class Application {
     
     public static void main(String[] args) {
         ApplicationContext ctx = SpringApplication.run(Application.class, args);
+        
+        try {
+			DatabaseHandler.initDatabase();
+		} catch (InstantiationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IllegalAccessException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
         
         String[] courses = {"Mathematics", "English", "Sociology", "Chemistry", "Geography", "History"};
         String[] students = {"Janez Novak", "Ana Novak", "Bor Novak"};
